@@ -54,7 +54,7 @@ const initDB = async () => {
 // Calling the dataBase
 initDB();
 
-// console.log(pool);
+// root
 app.get("/", (req: Request, res: Response) => {
   res.status(201).json({
     message: "Welcome to Express and NeonDB Backend Services",
