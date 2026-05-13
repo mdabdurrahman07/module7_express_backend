@@ -1,7 +1,11 @@
 import dotenv from "dotenv";
-import express, { type Request, type Response } from "express";
+import express, {
+  type Application,
+  type Request,
+  type Response,
+} from "express";
 import { Pool } from "pg";
-const app = express();
+const app: Application = express();
 const port = 5500;
 
 // middleware
@@ -19,8 +23,7 @@ const pool = new Pool({
   connectionString: process.env.NEON_PG_CONNECTION_STRING,
 });
 
-// db Connection
-
+//! db Connection
 const initDB = async () => {
   try {
     await pool.query(
@@ -44,14 +47,20 @@ const initDB = async () => {
   }
 };
 
+// Calling the dataBase
 initDB();
 
 // console.log(pool);
 app.get("/", (req: Request, res: Response) => {
-  res.send("This is new server");
+  res.status(201).json({
+    message: "Welcome to Express and NeonDB Backend Services",
+    author: "MD Abdur Rahman Nur Jamil",
+    error: false,
+  });
 });
 
-app.post("/", async (req: Request, res: Response) => {
+// * User Post Route
+app.post("/api/users", async (req: Request, res: Response) => {
   //   console.log("this is body", req.body);
   const body = req.body;
   const { name, email, is_active, age, password } = body;
@@ -77,7 +86,49 @@ app.post("/", async (req: Request, res: Response) => {
     });
   }
 });
-
+// * User Get RouteParameters
+app.get("/api/users", async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM users
+            `,
+    );
+    res.status(200).json({
+      message: "User retrieved Successfully",
+      data: result.rows,
+      error: false,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message,
+      data: null,
+      error: true,
+    });
+  }
+});
+// * Single User Get Route
+app.get("/api/users/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      `
+        SELECT * FROM users WHERE id = $1
+        `,
+      [id],
+    );
+    res.status(200).json({
+      message: "Single User retrieved",
+      data: result.rows[0],
+      error: false,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message,
+      data: null,
+      error: true,
+    });
+  }
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
