@@ -116,6 +116,13 @@ app.get("/api/users/:id", async (req: Request, res: Response) => {
         `,
       [id],
     );
+    if (result.rows.length === 0) {
+      res.status(404).json({
+        message: "Single User Not found",
+        data: {},
+        error: true,
+      });
+    }
     res.status(200).json({
       message: "Single User retrieved",
       data: result.rows[0],
@@ -129,6 +136,34 @@ app.get("/api/users/:id", async (req: Request, res: Response) => {
     });
   }
 });
+// * Update a single users
+app.put("/api/users/:id", async (req: Request, res: Response) => {
+  const body = req.body;
+  const { id } = req.params;
+  const { name, is_active, age, password } = body;
+  try {
+    const result = await pool.query(
+      `
+        UPDATE users SET name=$1,is_active=$2,age=$3,password=$4 WHERE id=$5 RETURNING *
+
+        `,
+      [name, is_active, age, password, id],
+    );
+    console.log(result)
+    res.status(200).json({
+      message: "User  updated",
+      data: result.rows[0],
+      error: true,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message,
+      data: null,
+      error: true,
+    });
+  }
+});
+// port is listening
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
