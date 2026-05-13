@@ -4,12 +4,16 @@ import express, {
   type Request,
   type Response,
 } from "express";
+import path from "node:path";
 import { Pool } from "pg";
 const app: Application = express();
-const port = 5500;
+const port = process.env.PORT || 8010;
+console.log(port);
 
 // middleware
-dotenv.config();
+dotenv.config({
+  path: path.join(process.cwd(), ".env"),
+});
 app.use(express.json());
 app.use(express.text());
 app.use(
