@@ -14,12 +14,39 @@ app.use(
   }),
 );
 
-// db pool Connection
+// db pool Connection with neon
 const pool = new Pool({
   connectionString: process.env.NEON_PG_CONNECTION_STRING,
 });
 
-console.log(pool);
+// db Connection
+
+const initDB = async () => {
+  try {
+    await pool.query(
+      `
+            CREATE TABLE IF NOT EXISTS users(
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(20),
+            email VARCHAR(30) NOT NULL,
+            password VARCHAR(20) NOT NULL,
+            is_active BOOLEAN DEFAULT true,
+            age INT,
+            created_at TIMESTAMP DEFAULT NOW(),
+            updated_at TIMESTAMP DEFAULT NOW()
+
+            )
+            `,
+    );
+    console.log("DB connected");
+  } catch (error) {
+    console.log("db connection error", error);
+  }
+};
+
+initDB()
+
+// console.log(pool);
 app.get("/", (req: Request, res: Response) => {
   res.send("This is new server");
 });
