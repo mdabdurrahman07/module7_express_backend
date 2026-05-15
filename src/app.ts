@@ -31,28 +31,6 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/users", userRoute)
 
 
-// * User Post Route
-
-// * User Get RouteParameters
-app.get("/api/users", async (req: Request, res: Response) => {
-  try {
-    const result = await pool.query(
-      `SELECT * FROM users
-            `,
-    );
-    res.status(200).json({
-      message: "User retrieved Successfully",
-      data: result.rows,
-      error: false,
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message,
-      data: null,
-      error: true,
-    });
-  }
-});
 // * Single User Get Route
 app.get("/api/users/:id", async (req: Request, res: Response) => {
   const { id } = req.params;

@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import config from "../config/env.config";
-console.log(process.env.NEON_PG_CONNECTION_STRING)
+// console.log(process.env.NEON_PG_CONNECTION_STRING)
 // db pool Connection with neon
 export const pool = new Pool({
   connectionString: config.connection_string,
