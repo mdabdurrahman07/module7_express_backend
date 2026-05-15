@@ -19,8 +19,18 @@ const getAllUsersFromDB = async () =>{
     );
     return result
 }
+const getSingleUserFromDB = async (id:any) =>{
+  const result = await pool.query(
+      `
+        SELECT * FROM users WHERE id = $1
+        `,
+      [id],
+    );
+    return result
+}
 
 export const userServices = {
   createUserIntoDB,
-  getAllUsersFromDB
+  getAllUsersFromDB,
+  getSingleUserFromDB
 };
