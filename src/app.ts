@@ -27,80 +27,8 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-// endPoints
+// endPoints of USERS (POST,GET,PUT,DELETE)
 app.use("/api/users", userRoute)
 
-
-
-// * Update a single users
-app.put("/api/users/:id", async (req: Request, res: Response) => {
-  const body = req.body;
-  const { id } = req.params;
-  const { name, is_active, age, password } = body;
-  try {
-    const result = await pool.query(
-      `
-        UPDATE users
-        SET
-        name=COALESCE($1,name),
-        is_active=COALESCE($2,is_active),
-        age=COALESCE($3,age),
-        password=COALESCE($4,password)
-        WHERE id=$5
-        RETURNING *
-        `,
-      [name, is_active, age, password, id],
-    );
-    if (result.rows.length === 0) {
-      res.status(404).json({
-        message: "User id not found",
-        data: {},
-        error: true,
-      });
-    }
-    // console.log(result)
-    res.status(200).json({
-      message: "User  updated",
-      data: result.rows[0],
-      error: false,
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message,
-      data: null,
-      error: true,
-    });
-  }
-});
-// * delete users
-app.delete("/api/users/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
-  try {
-    const result = await pool.query(
-      `DELETE  FROM users WHERE id=$1 
-            `,
-      [id],
-    );
-    if (result.rowCount === 0) {
-      res.status(404).json({
-        message: "User id not found",
-        data: {},
-        error: true,
-      });
-    }
-    // console.log(result)
-    res.status(200).json({
-      message: "User  deleted",
-      error: false,
-    });
-    console.log(result);
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message,
-      data: null,
-      error: true,
-    });
-  }
-});
 
 export default app;

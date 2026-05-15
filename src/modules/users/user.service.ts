@@ -28,9 +28,27 @@ const getSingleUserFromDB = async (id:any) =>{
     );
     return result
 }
+const updateUserFromDB = async (payload: IUser, id:any) =>{
+  const {name, is_active, age, password} = payload
+  const result = await pool.query(
+      `
+        UPDATE users
+        SET
+        name=COALESCE($1,name),
+        is_active=COALESCE($2,is_active),
+        age=COALESCE($3,age),
+        password=COALESCE($4,password)
+        WHERE id=$5
+        RETURNING *
+        `,
+      [name, is_active, age, password, id],
+    );
+    return result
+}
 
 export const userServices = {
   createUserIntoDB,
   getAllUsersFromDB,
-  getSingleUserFromDB
+  getSingleUserFromDB,
+  updateUserFromDB
 };
