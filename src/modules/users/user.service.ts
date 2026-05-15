@@ -45,10 +45,19 @@ const updateUserFromDB = async (payload: IUser, id:any) =>{
     );
     return result
 }
+const deleteUserFromDB = async (id: any) =>{
+  const result = await pool.query(
+      `DELETE  FROM users WHERE id=$1 
+            `,
+      [id],
+    );
+    return result
+}
 
 export const userServices = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
-  updateUserFromDB
+  updateUserFromDB,
+  deleteUserFromDB
 };
