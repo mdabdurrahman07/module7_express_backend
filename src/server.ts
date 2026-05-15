@@ -1,20 +1,17 @@
-import dotenv from "dotenv";
+
 import express, {
   type Application,
   type Request,
   type Response,
 } from "express";
 import path from "node:path";
-import { Pool } from "pg";
 import { initDB, pool } from "./db/db";
+import config from "./config/env.config";
 const app: Application = express();
-const port = process.env.PORT || 8010;
-console.log(port);
+const port = config.PORT;
+
 
 // middleware
-dotenv.config({
-  path: path.join(process.cwd(), ".env"),
-});
 app.use(express.json());
 app.use(express.text());
 app.use(
