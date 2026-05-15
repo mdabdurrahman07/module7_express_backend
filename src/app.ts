@@ -27,7 +27,7 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-// endPoints 
+// endPoints
 app.use("/api/users", userRoute)
 
 
