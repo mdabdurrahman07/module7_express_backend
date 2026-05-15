@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { pool } from "../../db/db";
 
-export const createUser = async (req: Request, res: Response) =>{
+ const createUser = async (req: Request, res: Response) =>{
   //   console.log("this is body", req.body);
   const body = req.body;
   const { name, email, is_active, age, password } = body;
@@ -26,4 +26,9 @@ export const createUser = async (req: Request, res: Response) =>{
       error: true,
     });
   }
+}
+
+
+export const userController = {
+    createUser,
 }
