@@ -28,7 +28,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // endPoints of USERS (POST,GET,PUT,DELETE)
-app.use("/api/users", userRoute)
-
+app.use("/api/users", userRoute);
 
 export default app;

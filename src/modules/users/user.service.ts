@@ -12,26 +12,26 @@ const createUserIntoDB = async (payload: IUser) => {
   );
   return result;
 };
-const getAllUsersFromDB = async () =>{
+const getAllUsersFromDB = async () => {
   const result = await pool.query(
-      `SELECT * FROM users
+    `SELECT * FROM users
             `,
-    );
-    return result
-}
-const getSingleUserFromDB = async (id:any) =>{
+  );
+  return result;
+};
+const getSingleUserFromDB = async (id: any) => {
   const result = await pool.query(
-      `
+    `
         SELECT * FROM users WHERE id = $1
         `,
-      [id],
-    );
-    return result
-}
-const updateUserFromDB = async (payload: IUser, id:any) =>{
-  const {name, is_active, age, password} = payload
+    [id],
+  );
+  return result;
+};
+const updateUserFromDB = async (payload: IUser, id: any) => {
+  const { name, is_active, age, password } = payload;
   const result = await pool.query(
-      `
+    `
         UPDATE users
         SET
         name=COALESCE($1,name),
@@ -41,23 +41,23 @@ const updateUserFromDB = async (payload: IUser, id:any) =>{
         WHERE id=$5
         RETURNING *
         `,
-      [name, is_active, age, password, id],
-    );
-    return result
-}
-const deleteUserFromDB = async (id: any) =>{
+    [name, is_active, age, password, id],
+  );
+  return result;
+};
+const deleteUserFromDB = async (id: any) => {
   const result = await pool.query(
-      `DELETE  FROM users WHERE id=$1 
+    `DELETE  FROM users WHERE id=$1 
             `,
-      [id],
-    );
-    return result
-}
+    [id],
+  );
+  return result;
+};
 
 export const userServices = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
   updateUserFromDB,
-  deleteUserFromDB
+  deleteUserFromDB,
 };
