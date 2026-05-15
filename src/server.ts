@@ -6,6 +6,7 @@ import express, {
 } from "express";
 import path from "node:path";
 import { Pool } from "pg";
+import { initDB, pool } from "./db/db";
 const app: Application = express();
 const port = process.env.PORT || 8010;
 console.log(port);
@@ -22,34 +23,7 @@ app.use(
   }),
 );
 
-// db pool Connection with neon
-const pool = new Pool({
-  connectionString: process.env.NEON_PG_CONNECTION_STRING,
-});
 
-//! db Connection
-const initDB = async () => {
-  try {
-    await pool.query(
-      `
-            CREATE TABLE IF NOT EXISTS users(
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(20),
-            email VARCHAR(30) UNIQUE NOT NULL,
-            password VARCHAR(30) NOT NULL,
-            is_active BOOLEAN DEFAULT true,
-            age INT,
-            created_at TIMESTAMP DEFAULT NOW(),
-            updated_at TIMESTAMP DEFAULT NOW()
-
-            )
-            `,
-    );
-    console.log("DB connected");
-  } catch (error) {
-    console.log("db connection error", error);
-  }
-};
 
 // Calling the dataBase
 initDB();
