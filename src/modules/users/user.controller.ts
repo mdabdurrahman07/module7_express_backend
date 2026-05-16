@@ -7,7 +7,7 @@ const createUser = async (req: Request, res: Response) => {
   const body = req.body;
   try {
     const result = await userServices.createUserIntoDB(body);
-      console.log(result);
+      // console.log(result);
     res.status(201).json({
       message: "User Created Successfully",
       data: result.rows[0],
