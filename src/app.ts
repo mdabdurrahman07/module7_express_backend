@@ -30,6 +30,9 @@ app.get("/", (req: Request, res: Response) => {
 
 // endPoints of USERS (POST,GET,PUT,DELETE)
 app.use("/api/users", userRoute);
+// endPoints of AUTH (POST)
 app.use("/api/auth", authRoute);
+// endPoints of Profiles (POST,GET,PUT,DELETE)
+app.use("api/profiles")
 
 export default app;
