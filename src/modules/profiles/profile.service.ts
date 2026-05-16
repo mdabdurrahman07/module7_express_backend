@@ -2,13 +2,13 @@ import { pool } from "../../db/db";
 import type { Profile } from "./profile.interface";
 
 const createProfileIntoDB = async (payload: Profile) => {
-  const { bio, address, phone, gender } = payload;
-  const result = pool.query(
+  const { user_id, bio, address, phone, gender } = payload;
+  const result = await pool.query(
     `
-        INSERT INTO profiles(bio,address,phone,gender) VALUES($1,$2,$3,$4)
+        INSERT INTO profiles(user_id,bio,address,phone,gender) VALUES($1,$2,$3,$4,$5)
         RETURNING *
         `,
-    [bio, address, phone, gender],
+    [user_id, bio, address, phone, gender],
   );
   return result;
 };
