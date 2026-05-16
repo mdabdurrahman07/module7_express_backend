@@ -8,6 +8,7 @@ dotenv.config({
 const config = {
   connection_string: process.env.NEON_PG_CONNECTION_STRING as string,
   PORT: process.env.PORT,
+  secret: process.env.JWT_SECRET_KEY as string,
 };
 
 export default config;

@@ -6,6 +6,7 @@ import express, {
 
 import { pool } from "./db/db";
 import { userRoute } from "./modules/users/user.route";
+import { authRoute } from "./modules/auth/auth.route";
 
 const app: Application = express();
 
@@ -29,5 +30,6 @@ app.get("/", (req: Request, res: Response) => {
 
 // endPoints of USERS (POST,GET,PUT,DELETE)
 app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
 
 export default app;
