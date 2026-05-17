@@ -5,5 +5,6 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
   fs.appendFile("logger.txt", log, (err) => {
     console.log("logger error", err);
   });
+  next()
 };
 export default logger;

@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { userController } from "./user.controller";
+import auth from "../../middleware/auth.middleware";
 
 const router = Router();
 
 //* user post route
 router.post("/", userController.createUser);
 //* get all users
-router.get("/", userController.getAllUsers);
+router.get("/", auth(), userController.getAllUsers);
 //* Single User Get Route
 router.get("/:id", userController.getSingleUser);
 // * Update a single users

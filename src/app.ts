@@ -8,7 +8,7 @@ import { pool } from "./db/db";
 import { userRoute } from "./modules/users/user.route";
 import { authRoute } from "./modules/auth/auth.route";
 import { profileRoute } from "./modules/profiles/profile.route";
-import logger from "./middleware/logger";
+
 
 const app: Application = express();
 
@@ -20,7 +20,7 @@ app.use(
     extended: true,
   }),
 );
-app.use(logger)
+// app.use(logger)
 
 // root
 app.get("/", (req: Request, res: Response) => {
