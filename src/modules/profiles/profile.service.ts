@@ -35,7 +35,22 @@ const getSingleProfileFromDB = async (id: string) => {
   );
   return result;
 };
-const updateProfileFromDB = async () => {};
+const updateProfileFromDB = async (payload: Profile, id: string) => {
+  const { user_id, bio, address, phone, gender } = payload;
+  const result = await pool.query(
+    `UPDATE profiles
+    SET
+    bio=COALESCE($1,bio),
+    address=COALESCE($2,address),
+    phone=COALESCE($3,phone),
+    gender=COALESCE($4,gender)
+    WHERE user_id=$5
+    RETURNING *
+    `,
+    [bio, address, phone, gender, user_id],
+  );
+  return result;
+};
 const deleteProfileFromDB = async () => {};
 
 export const profileServices = {
