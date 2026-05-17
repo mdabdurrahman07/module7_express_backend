@@ -8,8 +8,8 @@ const createProfileIntoDB = async (payload: Profile) => {
     `,
     [user_id],
   );
-  if(user.rows.length === 0){
-    throw new Error("User not found")
+  if (user.rows.length === 0) {
+    throw new Error("User not found");
   }
   const result = await pool.query(
     `
@@ -23,11 +23,18 @@ const createProfileIntoDB = async (payload: Profile) => {
 const getProfileFromDB = async () => {
   const result = await pool.query(
     `SELECT * FROM profiles
-    `
-  )
-  return result
+    `,
+  );
+  return result;
 };
-const getSingleProfileFromDB = async () => {};
+const getSingleProfileFromDB = async (id: string) => {
+  const result = await pool.query(
+    `SELECT * FROM profiles WHERE id=$1
+    `,
+    [id],
+  );
+  return result;
+};
 const updateProfileFromDB = async () => {};
 const deleteProfileFromDB = async () => {};
 
