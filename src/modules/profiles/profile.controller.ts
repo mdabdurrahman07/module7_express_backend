@@ -69,7 +69,23 @@ const updateProfile = async (req: Request, res: Response) => {
     });
   }
 };
-const deleteProfile = async (req: Request, res: Response) => {};
+const deleteProfile = async (req: Request, res: Response) => {
+  const {id} = req.params
+  try {
+    const result = await profileServices.deleteProfileFromDB(id as string)
+    res.status(200).json({
+      message: "Profile Deleted Successfully",
+      data: result.rows,
+      error: false,
+    });
+  } catch (error:any) {
+    res.status(500).json({
+      message: error.message,
+      data: null,
+      error: true,
+    });
+  }
+};
 
 export const profileControllers = {
   createProfile,
