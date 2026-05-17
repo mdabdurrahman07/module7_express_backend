@@ -20,7 +20,13 @@ const createProfileIntoDB = async (payload: Profile) => {
   );
   return result;
 };
-const getProfileFromDB = async () => {};
+const getProfileFromDB = async () => {
+  const result = await pool.query(
+    `SELECT * FROM profiles
+    `
+  )
+  return result
+};
 const getSingleProfileFromDB = async () => {};
 const updateProfileFromDB = async () => {};
 const deleteProfileFromDB = async () => {};
