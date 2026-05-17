@@ -3,7 +3,6 @@ import { pool } from "../../db/db";
 import { userServices } from "./user.service";
 
 const createUser = async (req: Request, res: Response) => {
-    // console.log("this is body", req.body);
   const body = req.body;
   try {
     const result = await userServices.createUserIntoDB(body);
@@ -22,6 +21,7 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 const getAllUsers = async (req: Request, res: Response) => {
+   console.log("this is req.user", req.user);
   try {
     const result = await userServices.getAllUsersFromDB();
     res.status(200).json({
